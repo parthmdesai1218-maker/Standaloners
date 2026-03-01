@@ -1,0 +1,40 @@
+This folder contains independent/standalone program files that may have been used across multiple projects for specific purposes required during the building of projects.
+
+At the root location, the 'Workspace_Summary.html' file is a webpage that summarizes the progress and plans for multiple projects undertaken and repos for which are available for this account. This will be a running file which will be updated everytime a new project is launched or a major milestone in existing project is completed.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+other_token: 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

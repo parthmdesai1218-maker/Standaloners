@@ -1,0 +1,1480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Workspace — Project Roadmap</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600&family=Plus+Jakarta+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+/* ── Reset & Tokens ──────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --sidebar-w:   248px;
+  --bg:          #f7f8fa;
+  --white:       #ffffff;
+  --surface:     #ffffff;
+  --surface2:    #f0f2f6;
+  --border:      #e2e5ec;
+  --border2:     #d0d5e0;
+  --text:        #1a1f2e;
+  --text2:       #4a5168;
+  --text3:       #8a91a8;
+  --text4:       #b0b7c9;
+
+  /* Phase colours — muted, professional */
+  --p1:          #16a34a;
+  --p1-light:    #f0fdf4;
+  --p1-mid:      #dcfce7;
+  --p1-border:   #86efac;
+
+  --p2:          #d97706;
+  --p2-light:    #fffbeb;
+  --p2-mid:      #fef3c7;
+  --p2-border:   #fcd34d;
+
+  --p3:          #7c3aed;
+  --p3-light:    #f5f3ff;
+  --p3-mid:      #ede9fe;
+  --p3-border:   #c4b5fd;
+
+  --accent:      #2563eb;
+  --accent-light:#eff6ff;
+
+  --font-d:      'Lora', Georgia, serif;
+  --font-s:      'Plus Jakarta Sans', system-ui, sans-serif;
+  --font-m:      'JetBrains Mono', monospace;
+  --r:           8px;
+  --r2:          12px;
+  --t:           0.18s ease;
+  --shadow-sm:   0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow:      0 4px 12px rgba(0,0,0,0.07);
+}
+
+html, body { height: 100%; overflow: hidden; }
+
+body {
+  font-family: var(--font-s);
+  background: var(--bg);
+  color: var(--text);
+  display: flex;
+}
+
+/* ── Scrollbar ───────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 4px; }
+
+/* ═══════════════════════════════════════════════════════════
+   SIDEBAR
+═══════════════════════════════════════════════════════════ */
+.sidebar {
+  width: var(--sidebar-w);
+  min-width: var(--sidebar-w);
+  background: var(--white);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  height: 100vh;
+}
+
+/* ── Sidebar header ── */
+.sidebar-header {
+  padding: 18px 16px 14px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.app-icon {
+  width: 30px; height: 30px;
+  background: var(--accent);
+  border-radius: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  flex-shrink: 0;
+  color: #fff;
+  font-weight: 700;
+  font-family: var(--font-d);
+  font-style: italic;
+}
+
+.app-name {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text);
+  letter-spacing: -0.2px;
+}
+
+.app-org {
+  font-size: 0.68rem;
+  color: var(--text3);
+  margin-top: 1px;
+}
+
+/* ── Sidebar scroll area ── */
+.sidebar-scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px 0 4px;
+}
+
+/* ── Section label ── */
+.nav-section {
+  padding: 14px 16px 4px;
+  font-size: 0.63rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text3);
+  font-family: var(--font-m);
+}
+
+/* ── Nav item (leaf) ── */
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 14px 7px 12px;
+  margin: 1px 6px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.82rem;
+  color: var(--text2);
+  transition: background var(--t), color var(--t);
+  text-decoration: none;
+  border: none;
+  background: none;
+  width: calc(100% - 12px);
+  text-align: left;
+  font-family: var(--font-s);
+}
+
+.nav-item:hover { background: var(--surface2); color: var(--text); }
+
+.nav-item.active {
+  background: var(--accent-light);
+  color: var(--accent);
+  font-weight: 500;
+}
+
+.nav-item .nav-icon {
+  width: 16px;
+  text-align: center;
+  font-size: 0.78rem;
+  flex-shrink: 0;
+  opacity: 0.7;
+}
+
+.nav-item.active .nav-icon { opacity: 1; }
+
+.nav-badge {
+  margin-left: auto;
+  font-size: 0.63rem;
+  font-family: var(--font-m);
+  color: var(--text3);
+  background: var(--surface2);
+  padding: 1px 6px;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.nav-item.active .nav-badge {
+  background: #dbeafe;
+  color: var(--accent);
+  border-color: #bfdbfe;
+}
+
+/* ── Collapsible project group ── */
+.nav-group { }
+
+.nav-group-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 14px 7px 12px;
+  margin: 1px 6px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--text2);
+  transition: background var(--t), color var(--t);
+  border: none;
+  background: none;
+  width: calc(100% - 12px);
+  text-align: left;
+  font-family: var(--font-s);
+  user-select: none;
+}
+
+.nav-group-header:hover { background: var(--surface2); color: var(--text); }
+
+.nav-group-header.open { color: var(--text); }
+
+.group-dot {
+  width: 8px; height: 8px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+.group-label { flex: 1; }
+
+.group-status {
+  font-size: 0.63rem;
+  font-family: var(--font-m);
+  padding: 1px 5px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+.chevron {
+  width: 14px; height: 14px;
+  flex-shrink: 0;
+  color: var(--text3);
+  transition: transform 0.22s ease;
+}
+
+.nav-group-header.open .chevron { transform: rotate(90deg); }
+
+/* ── Collapsible children ── */
+.nav-group-children {
+  overflow: hidden;
+  max-height: 0;
+  transition: max-height 0.28s ease;
+}
+
+.nav-group-children.open {
+  /* set via JS based on content height */
+}
+
+.nav-sub-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px 6px 30px;
+  margin: 1px 6px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.79rem;
+  color: var(--text2);
+  transition: background var(--t), color var(--t);
+  border: none;
+  background: none;
+  width: calc(100% - 12px);
+  text-align: left;
+  font-family: var(--font-s);
+}
+
+.nav-sub-item:hover { background: var(--surface2); color: var(--text); }
+
+.nav-sub-item.active {
+  background: var(--accent-light);
+  color: var(--accent);
+  font-weight: 500;
+}
+
+.sub-icon { font-size: 0.75rem; flex-shrink: 0; }
+
+.nav-sub-item.dim { opacity: 0.45; cursor: not-allowed; }
+.nav-sub-item.dim:hover { background: none; color: var(--text2); }
+
+/* ── Sidebar footer ── */
+.sidebar-footer {
+  border-top: 1px solid var(--border);
+  padding: 12px 16px;
+}
+
+.sidebar-footer-user {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.footer-avatar {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  color: #fff;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.footer-name {
+  font-size: 0.79rem;
+  font-weight: 500;
+  color: var(--text);
+}
+
+.footer-role {
+  font-size: 0.65rem;
+  color: var(--text3);
+  margin-top: 1px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   MAIN AREA
+═══════════════════════════════════════════════════════════ */
+.main {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.page { display: none; }
+.page.active { display: block; }
+
+/* ── Topbar ── */
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: rgba(247,248,250,0.9);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 32px;
+  height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.topbar-crumb {
+  font-size: 0.78rem;
+  color: var(--text3);
+}
+
+.topbar-sep {
+  color: var(--text4);
+  font-size: 0.75rem;
+}
+
+.topbar-title {
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.topbar-chip {
+  font-size: 0.7rem;
+  font-family: var(--font-m);
+  padding: 3px 10px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  color: var(--text2);
+  background: var(--white);
+}
+
+.topbar-chip.live {
+  border-color: var(--p1-border);
+  color: var(--p1);
+  background: var(--p1-light);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-weight: 500;
+}
+
+.pulse {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--p1);
+  animation: pulse 2s infinite;
+  flex-shrink: 0;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.75); }
+}
+
+/* ── Content wrapper ── */
+.content {
+  padding: 32px 36px 60px;
+  max-width: 1080px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   OVERVIEW PAGE
+═══════════════════════════════════════════════════════════ */
+.page-title {
+  margin-bottom: 28px;
+}
+
+.page-title h1 {
+  font-family: var(--font-d);
+  font-size: 1.9rem;
+  font-weight: 600;
+  color: var(--text);
+  letter-spacing: -0.3px;
+  margin-bottom: 6px;
+  line-height: 1.25;
+}
+
+.page-title p {
+  font-size: 0.88rem;
+  color: var(--text2);
+  line-height: 1.65;
+  max-width: 560px;
+}
+
+/* ── Phase cards ── */
+.phase-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin-bottom: 40px;
+}
+
+.phase-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--r2);
+  padding: 20px;
+  cursor: pointer;
+  transition: box-shadow var(--t), border-color var(--t), transform var(--t);
+  box-shadow: var(--shadow-sm);
+}
+
+.phase-card:hover {
+  box-shadow: var(--shadow);
+  transform: translateY(-1px);
+}
+
+.phase-card-tag {
+  font-size: 0.65rem;
+  font-family: var(--font-m);
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.phase-card.p1 .phase-card-tag { color: var(--p1); }
+.phase-card.p2 .phase-card-tag { color: var(--p2); }
+.phase-card.p3 .phase-card-tag { color: var(--p3); }
+
+.phase-card h3 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 14px;
+}
+
+.phase-nums {
+  display: flex;
+  gap: 18px;
+  margin-bottom: 14px;
+}
+
+.pnum-val {
+  font-family: var(--font-d);
+  font-size: 1.7rem;
+  font-weight: 600;
+  line-height: 1;
+  margin-bottom: 2px;
+}
+
+.phase-card.p1 .pnum-val { color: var(--p1); }
+.phase-card.p2 .pnum-val { color: var(--p2); }
+.phase-card.p3 .pnum-val { color: var(--p3); }
+
+.pnum-lbl {
+  font-size: 0.64rem;
+  color: var(--text3);
+  font-family: var(--font-m);
+}
+
+.phase-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.68rem;
+  padding: 3px 9px;
+  border-radius: 20px;
+  font-family: var(--font-m);
+  font-weight: 500;
+}
+
+.phase-card.p1 .phase-status { background: var(--p1-light); color: var(--p1); border: 1px solid var(--p1-border); }
+.phase-card.p2 .phase-status { background: var(--p2-light); color: var(--p2); border: 1px solid var(--p2-border); }
+.phase-card.p3 .phase-status { background: var(--p3-light); color: var(--p3); border: 1px solid var(--p3-border); }
+
+/* ── Section label ── */
+.sec-label {
+  font-size: 0.65rem;
+  font-family: var(--font-m);
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text3);
+  margin-bottom: 14px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+
+/* ── Timeline ── */
+.timeline-wrap {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--r2);
+  padding: 28px 32px 24px;
+  margin-bottom: 36px;
+  box-shadow: var(--shadow-sm);
+  overflow-x: auto;
+}
+
+.tl-track {
+  display: flex;
+  align-items: flex-start;
+  position: relative;
+  min-width: 680px;
+  padding-top: 32px;
+}
+
+.tl-spine {
+  position: absolute;
+  top: 51px;
+  left: 20px;
+  right: 20px;
+  height: 1px;
+  background: var(--border2);
+}
+
+.tl-progress {
+  position: absolute;
+  top: 51px;
+  left: 20px;
+  width: 14%;
+  height: 1px;
+  background: var(--p1);
+}
+
+.tl-node {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+}
+
+.tl-marker {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  border: 1.5px solid;
+  background: var(--white);
+  margin-bottom: 10px;
+  position: relative;
+}
+
+.tl-node.p1 .tl-marker { border-color: var(--p1); }
+.tl-node.p2 .tl-marker { border-color: var(--p2-border); }
+.tl-node.p3 .tl-marker { border-color: var(--p3-border); }
+
+.tl-now {
+  position: absolute;
+  top: -24px; left: 50%; transform: translateX(-50%);
+  font-family: var(--font-m);
+  font-size: 0.6rem;
+  color: var(--p1);
+  background: var(--p1-light);
+  border: 1px solid var(--p1-border);
+  padding: 2px 6px;
+  border-radius: 4px;
+  white-space: nowrap;
+  font-weight: 500;
+}
+
+.tl-date {
+  font-family: var(--font-m);
+  font-size: 0.64rem;
+  color: var(--text3);
+  margin-bottom: 3px;
+  text-align: center;
+}
+
+.tl-name {
+  font-size: 0.77rem;
+  font-weight: 600;
+  color: var(--text);
+  text-align: center;
+  margin-bottom: 3px;
+  line-height: 1.3;
+}
+
+.tl-sub {
+  font-size: 0.67rem;
+  color: var(--text2);
+  text-align: center;
+  line-height: 1.4;
+  max-width: 130px;
+}
+
+/* ── Swimlane ── */
+.swimlane-wrap {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--r2);
+  overflow: hidden;
+  margin-bottom: 36px;
+  box-shadow: var(--shadow-sm);
+  overflow-x: auto;
+}
+
+.swimlane-table {
+  min-width: 820px;
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.swimlane-table th {
+  padding: 10px 14px;
+  font-size: 0.66rem;
+  font-family: var(--font-m);
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+}
+
+.swimlane-table th.h-cat { color: var(--text3); width: 160px; }
+.swimlane-table th.h-p1 { color: var(--p1); border-bottom-color: var(--p1); }
+.swimlane-table th.h-p2 { color: var(--p2); border-bottom-color: var(--p2); }
+.swimlane-table th.h-p3 { color: var(--p3); border-bottom-color: var(--p3); }
+
+.swimlane-table td {
+  padding: 10px 14px;
+  font-size: 0.75rem;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+  line-height: 1.45;
+}
+
+.swimlane-table tr:last-child td { border-bottom: none; }
+.swimlane-table tr:nth-child(even) td { background: var(--bg); }
+
+.sl-cat-cell {
+  color: var(--text2);
+  font-weight: 500;
+  font-size: 0.76rem;
+  white-space: nowrap;
+}
+
+.sl-tag {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.69rem;
+  font-family: var(--font-m);
+  line-height: 1.5;
+}
+
+.sl-tag.p1 { background: var(--p1-light); color: var(--p1); }
+.sl-tag.p2 { background: var(--p2-light); color: var(--p2); }
+.sl-tag.p3 { background: var(--p3-light); color: var(--p3); }
+.sl-tag.none { background: none; color: var(--text4); font-style: italic; }
+
+/* ── Totals ── */
+.totals-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin-bottom: 36px;
+}
+
+.total-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--r2);
+  padding: 18px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  box-shadow: var(--shadow-sm);
+}
+
+.total-icon {
+  width: 40px; height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.total-card.p1 .total-icon { background: var(--p1-light); }
+.total-card.p2 .total-icon { background: var(--p2-light); }
+.total-card.p3 .total-icon { background: var(--p3-light); }
+
+.total-num {
+  font-family: var(--font-d);
+  font-size: 1.65rem;
+  font-weight: 600;
+  line-height: 1;
+  margin-bottom: 2px;
+}
+
+.total-card.p1 .total-num { color: var(--p1); }
+.total-card.p2 .total-num { color: var(--p2); }
+.total-card.p3 .total-num { color: var(--p3); }
+
+.total-lbl { font-size: 0.77rem; color: var(--text); font-weight: 500; }
+.total-sub { font-size: 0.66rem; color: var(--text3); font-family: var(--font-m); margin-top: 2px; }
+
+/* ═══════════════════════════════════════════════════════════
+   PHASE DETAIL PAGES
+═══════════════════════════════════════════════════════════ */
+.phase-banner {
+  border-radius: var(--r2);
+  padding: 24px 26px 20px;
+  margin-bottom: 28px;
+  border: 1px solid;
+}
+
+.phase-banner.p1 { background: var(--p1-light); border-color: var(--p1-border); }
+.phase-banner.p2 { background: var(--p2-light); border-color: var(--p2-border); }
+.phase-banner.p3 { background: var(--p3-light); border-color: var(--p3-border); }
+
+.banner-tag {
+  font-family: var(--font-m);
+  font-size: 0.63rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.p1 .banner-tag { color: var(--p1); }
+.p2 .banner-tag { color: var(--p2); }
+.p3 .banner-tag { color: var(--p3); }
+
+.phase-banner h2 {
+  font-family: var(--font-d);
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 6px;
+}
+
+.phase-banner p {
+  font-size: 0.84rem;
+  color: var(--text2);
+  line-height: 1.6;
+  max-width: 580px;
+}
+
+.banner-stats {
+  display: flex;
+  gap: 24px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+
+.bstat { }
+.bstat-val {
+  font-family: var(--font-d);
+  font-size: 1.55rem;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.p1 .bstat-val { color: var(--p1); }
+.p2 .bstat-val { color: var(--p2); }
+.p3 .bstat-val { color: var(--p3); }
+
+.bstat-lbl { font-size: 0.63rem; color: var(--text3); font-family: var(--font-m); margin-top: 2px; }
+
+/* ── Category grid ── */
+.cat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(298px, 1fr));
+  gap: 14px;
+}
+
+.cat-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--r2);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow var(--t);
+}
+
+.cat-card:hover { box-shadow: var(--shadow); }
+
+.cat-head {
+  padding: 14px 16px 10px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg);
+}
+
+.cat-head-left { flex: 1; }
+.cat-emoji { font-size: 1rem; margin-bottom: 4px; }
+
+.cat-name {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.cat-count {
+  font-size: 0.65rem;
+  color: var(--text3);
+  font-family: var(--font-m);
+  margin-top: 1px;
+}
+
+.cat-sp-num {
+  font-family: var(--font-d);
+  font-size: 1.4rem;
+  font-weight: 600;
+  text-align: right;
+  line-height: 1;
+}
+
+.p1 .cat-sp-num { color: var(--p1); }
+.p2 .cat-sp-num { color: var(--p2); }
+.p3 .cat-sp-num { color: var(--p3); }
+
+.cat-sp-lbl {
+  font-size: 0.58rem;
+  font-family: var(--font-m);
+  color: var(--text3);
+  text-align: right;
+  display: block;
+}
+
+.cat-features { }
+
+.feat-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  padding: 7px 15px;
+  border-bottom: 1px solid var(--border);
+  transition: background var(--t);
+}
+
+.feat-row:last-of-type { border-bottom: none; }
+.feat-row:hover { background: var(--bg); }
+
+.feat-dot {
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.55rem;
+  font-weight: 700;
+  margin-top: 2px;
+}
+
+.p1 .feat-dot { background: var(--p1-light); color: var(--p1); border: 1px solid var(--p1-border); }
+.p2 .feat-dot { background: var(--p2-light); color: var(--p2); border: 1px solid var(--p2-border); }
+.p3 .feat-dot { background: var(--p3-light); color: var(--p3); border: 1px solid var(--p3-border); }
+
+.feat-name {
+  flex: 1;
+  font-size: 0.77rem;
+  color: var(--text);
+  line-height: 1.35;
+}
+
+.feat-sp {
+  font-family: var(--font-m);
+  font-size: 0.6rem;
+  padding: 1px 5px;
+  border-radius: 3px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.p1 .feat-sp { background: var(--p1-light); color: var(--p1); }
+.p2 .feat-sp { background: var(--p2-light); color: var(--p2); }
+.p3 .feat-sp { background: var(--p3-light); color: var(--p3); }
+
+/* collapsed state */
+.cat-features.collapsed .feat-row:nth-child(n+4) { display: none; }
+
+.expand-btn {
+  width: 100%;
+  background: none;
+  border: none;
+  border-top: 1px solid var(--border);
+  padding: 7px 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  font-size: 0.71rem;
+  color: var(--text3);
+  cursor: pointer;
+  transition: color var(--t), background var(--t);
+  font-family: var(--font-s);
+  background: var(--bg);
+}
+
+.expand-btn:hover { color: var(--accent); background: var(--accent-light); }
+
+/* ── Legend bar ── */
+.legend {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 18px;
+  flex-wrap: wrap;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.72rem;
+  color: var(--text2);
+}
+
+.ldot { width: 8px; height: 8px; border-radius: 50%; }
+
+/* ── Responsive ── */
+@media (max-width: 820px) {
+  .sidebar { display: none; }
+  .phase-cards, .totals-row { grid-template-columns: 1fr; }
+  .cat-grid { grid-template-columns: 1fr; }
+  .content { padding: 20px 16px 40px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ════════════ SIDEBAR ════════════ -->
+<aside class="sidebar">
+  <div class="sidebar-header">
+    <div class="app-icon">W</div>
+    <div>
+      <div class="app-name">Workspace</div>
+      <div class="app-org">Project Roadmaps</div>
+    </div>
+  </div>
+
+  <div class="sidebar-scroll">
+
+    <div class="nav-section">Workspace</div>
+    <button class="nav-item" onclick="navigate('home')" id="nav-home">
+      <span class="nav-icon">⌂</span> Home
+    </button>
+    <button class="nav-item" onclick="navigate('home')" style="opacity:.4;cursor:not-allowed">
+      <span class="nav-icon">◫</span> All Projects
+    </button>
+
+    <div class="nav-section" style="margin-top:6px">Projects</div>
+
+    <!-- Curionis group -->
+    <div class="nav-group" id="group-curionis">
+      <button class="nav-group-header open" onclick="toggleGroup('curionis')">
+        <div class="group-dot" style="background:#2563eb; border-radius:3px"></div>
+        <span class="group-label">Curionis</span>
+        <span class="group-status" style="background:#eff6ff;color:#2563eb;border:1px solid #bfdbfe">Active</span>
+        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="9 18 15 12 9 6"/>
+        </svg>
+      </button>
+      <div class="nav-group-children open" id="children-curionis">
+        <button class="nav-sub-item active" onclick="navigate('overview')" id="nav-overview">
+          <span class="sub-icon">◈</span> Overview
+        </button>
+        <button class="nav-sub-item" onclick="navigate('phase1')" id="nav-phase1">
+          <span class="sub-icon" style="color:var(--p1)">●</span> Phase 1 — MVP
+          <span class="nav-badge" style="margin-left:auto">68</span>
+        </button>
+        <button class="nav-sub-item" onclick="navigate('phase2')" id="nav-phase2">
+          <span class="sub-icon" style="color:var(--p2)">●</span> Phase 2 — Enhance
+          <span class="nav-badge" style="margin-left:auto">41</span>
+        </button>
+        <button class="nav-sub-item" onclick="navigate('phase3')" id="nav-phase3">
+          <span class="sub-icon" style="color:var(--p3)">●</span> Phase 3 — Scale
+          <span class="nav-badge" style="margin-left:auto">34</span>
+        </button>
+        <button class="nav-sub-item dim">
+          <span class="sub-icon">○</span> Analytics
+        </button>
+        <button class="nav-sub-item dim">
+          <span class="sub-icon">○</span> Release Notes
+        </button>
+        <button class="nav-sub-item dim">
+          <span class="sub-icon">○</span> Team
+        </button>
+      </div>
+    </div>
+
+    <!-- Placeholder project 2 -->
+    <div class="nav-group" id="group-proj2">
+      <button class="nav-group-header" onclick="toggleGroup('proj2')" style="opacity:0.45;cursor:not-allowed">
+        <div class="group-dot" style="background:#94a3b8; border-radius:3px"></div>
+        <span class="group-label">New Project</span>
+        <span class="group-status" style="background:#f8fafc;color:#94a3b8;border:1px solid #e2e8f0">Soon</span>
+        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="9 18 15 12 9 6"/>
+        </svg>
+      </button>
+    </div>
+
+  </div>
+
+  <div class="sidebar-footer">
+    <div class="sidebar-footer-user">
+      <div class="footer-avatar">P</div>
+      <div>
+        <div class="footer-name">PMD</div>
+        <div class="footer-role">SAFe Product Manager</div>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<!-- ════════════ MAIN ════════════ -->
+<main class="main">
+
+<!-- ════════ OVERVIEW ════════ -->
+<div class="page active" id="page-overview">
+  <div class="topbar">
+    <div class="topbar-left">
+      <span class="topbar-crumb">Curionis</span>
+      <span class="topbar-sep">›</span>
+      <span class="topbar-title">Overview</span>
+    </div>
+    <div class="topbar-right">
+      <span class="topbar-chip live"><span class="pulse"></span>Phase 1 Live</span>
+      <span class="topbar-chip">March 1, 2026</span>
+    </div>
+  </div>
+
+  <div class="content">
+    <div class="page-title">
+      <h1>Curionis — Product Roadmap</h1>
+      <p>A complete view of every feature shipped in Phase 1 and planned for Phases 2 and 3. Launched today as a free, ad-free, photo-driven quiz game for children.</p>
+    </div>
+
+    <div class="sec-label">Phases at a Glance</div>
+    <div class="phase-cards">
+      <div class="phase-card p1" onclick="navigate('phase1')">
+        <div class="phase-card-tag"><span class="pulse" style="width:5px;height:5px"></span> Phase 1 · Launched Today</div>
+        <h3>MVP — Launch</h3>
+        <div class="phase-nums">
+          <div><div class="pnum-val">68</div><div class="pnum-lbl">features</div></div>
+          <div><div class="pnum-val">163</div><div class="pnum-lbl">story pts</div></div>
+          <div><div class="pnum-val">~978</div><div class="pnum-lbl">hrs</div></div>
+        </div>
+        <span class="phase-status"><span class="pulse" style="width:5px;height:5px"></span> Shipped</span>
+      </div>
+
+      <div class="phase-card p2" onclick="navigate('phase2')">
+        <div class="phase-card-tag">Phase 2 · 3–5 months</div>
+        <h3>Enhance — Enrich</h3>
+        <div class="phase-nums">
+          <div><div class="pnum-val">41</div><div class="pnum-lbl">features</div></div>
+          <div><div class="pnum-val">236</div><div class="pnum-lbl">story pts</div></div>
+          <div><div class="pnum-val">~1.4k</div><div class="pnum-lbl">hrs</div></div>
+        </div>
+        <span class="phase-status">⏳ Planned</span>
+      </div>
+
+      <div class="phase-card p3" onclick="navigate('phase3')">
+        <div class="phase-card-tag">Phase 3 · 6–10 months</div>
+        <h3>Scale — Monetise</h3>
+        <div class="phase-nums">
+          <div><div class="pnum-val">34</div><div class="pnum-lbl">features</div></div>
+          <div><div class="pnum-val">295</div><div class="pnum-lbl">story pts</div></div>
+          <div><div class="pnum-val">~1.8k</div><div class="pnum-lbl">hrs</div></div>
+        </div>
+        <span class="phase-status">🔭 Future</span>
+      </div>
+    </div>
+
+    <div class="sec-label">Timeline</div>
+    <div class="timeline-wrap">
+      <div class="tl-track">
+        <div class="tl-spine"></div>
+        <div class="tl-progress"></div>
+
+        <div class="tl-node p1">
+          <div class="tl-marker">🚀<span class="tl-now">TODAY</span></div>
+          <div class="tl-date">March 2026</div>
+          <div class="tl-name">Phase 1 · Launch</div>
+          <div class="tl-sub">68 features · 7 packs · Live</div>
+        </div>
+
+        <div class="tl-node p2">
+          <div class="tl-marker">⚡</div>
+          <div class="tl-date">Jun 2026</div>
+          <div class="tl-name">Phase 2 · Begin</div>
+          <div class="tl-sub">New modes · Audio · PWA</div>
+        </div>
+
+        <div class="tl-node p2">
+          <div class="tl-marker">🌍</div>
+          <div class="tl-date">Aug–Oct 2026</div>
+          <div class="tl-name">Phase 2 · Complete</div>
+          <div class="tl-sub">41 features · Dashboard · i18n</div>
+        </div>
+
+        <div class="tl-node p3">
+          <div class="tl-marker">🏗️</div>
+          <div class="tl-date">Oct 2026</div>
+          <div class="tl-name">Phase 3 · Begin</div>
+          <div class="tl-sub">Backend · Accounts · Payments</div>
+        </div>
+
+        <div class="tl-node p3">
+          <div class="tl-marker">🌟</div>
+          <div class="tl-date">Mid–Late 2027</div>
+          <div class="tl-name">Phase 3 · Complete</div>
+          <div class="tl-sub">34 features · Apps · Scale</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sec-label">Feature Coverage Across Phases</div>
+    <div class="swimlane-wrap">
+      <table class="swimlane-table" id="swimlane-table">
+        <thead>
+          <tr>
+            <th class="h-cat">Category</th>
+            <th class="h-p1">Phase 1 — MVP</th>
+            <th class="h-p2">Phase 2 — Enhance</th>
+            <th class="h-p3">Phase 3 — Scale</th>
+          </tr>
+        </thead>
+        <tbody id="swimlane-body"></tbody>
+      </table>
+    </div>
+
+    <div class="sec-label">Combined Totals</div>
+    <div class="totals-row">
+      <div class="total-card p1">
+        <div class="total-icon">✅</div>
+        <div>
+          <div class="total-num">68</div>
+          <div class="total-lbl">Phase 1 features shipped</div>
+          <div class="total-sub">163 SP · ~978 hrs · Live today</div>
+        </div>
+      </div>
+      <div class="total-card p2">
+        <div class="total-icon">📅</div>
+        <div>
+          <div class="total-num">41</div>
+          <div class="total-lbl">Phase 2 features planned</div>
+          <div class="total-sub">236 SP · ~1,416 hrs · 3–5 mo</div>
+        </div>
+      </div>
+      <div class="total-card p3">
+        <div class="total-icon">🔭</div>
+        <div>
+          <div class="total-num">34</div>
+          <div class="total-lbl">Phase 3 features planned</div>
+          <div class="total-sub">295 SP · ~1,770 hrs · 6–10 mo</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ════════ PHASE 1 ════════ -->
+<div class="page" id="page-phase1">
+  <div class="topbar">
+    <div class="topbar-left">
+      <span class="topbar-crumb">Curionis</span>
+      <span class="topbar-sep">›</span>
+      <span class="topbar-title">Phase 1 — MVP</span>
+    </div>
+    <div class="topbar-right">
+      <span class="topbar-chip live"><span class="pulse"></span>Shipped · March 2026</span>
+      <span class="topbar-chip">68 features · 163 SP</span>
+    </div>
+  </div>
+  <div class="content">
+    <div class="phase-banner p1">
+      <div class="banner-tag p1">Phase 1 · MVP · Launched March 2026</div>
+      <h2>The Foundation</h2>
+      <p>A complete, polished, kid-safe learning experience — from the first pixel to the last flashcard. Delivered as a single-file progressive web app, no backend required.</p>
+      <div class="banner-stats">
+        <div class="bstat p1"><div class="bstat-val">68</div><div class="bstat-lbl">features</div></div>
+        <div class="bstat p1"><div class="bstat-val">163</div><div class="bstat-lbl">story points</div></div>
+        <div class="bstat p1"><div class="bstat-val">~978</div><div class="bstat-lbl">dev hours</div></div>
+        <div class="bstat p1"><div class="bstat-val">7</div><div class="bstat-lbl">free packs</div></div>
+        <div class="bstat p1"><div class="bstat-val">108</div><div class="bstat-lbl">species/subjects</div></div>
+      </div>
+    </div>
+    <div class="legend">
+      <div class="legend-item"><div class="ldot" style="background:var(--p1)"></div> Shipped</div>
+      <div class="legend-item" style="font-size:0.68rem;color:var(--text3)">1 SP ≈ 6 hours of development effort</div>
+    </div>
+    <div class="cat-grid" id="p1-grid"></div>
+  </div>
+</div>
+
+
+<!-- ════════ PHASE 2 ════════ -->
+<div class="page" id="page-phase2">
+  <div class="topbar">
+    <div class="topbar-left">
+      <span class="topbar-crumb">Curionis</span>
+      <span class="topbar-sep">›</span>
+      <span class="topbar-title">Phase 2 — Enhance & Enrich</span>
+    </div>
+    <div class="topbar-right">
+      <span class="topbar-chip" style="border-color:var(--p2-border);color:var(--p2);background:var(--p2-light)">⏳ Planned · Jun–Oct 2026</span>
+      <span class="topbar-chip">41 features · 236 SP</span>
+    </div>
+  </div>
+  <div class="content">
+    <div class="phase-banner p2">
+      <div class="banner-tag p2">Phase 2 · Planned · 3–5 Months</div>
+      <h2>Depth, Delight & Reach</h2>
+      <p>Builds on the existing codebase — no backend needed. New game modes, audio, offline support, parental tools, multilingual content, and social sharing, all delivered in the browser.</p>
+      <div class="banner-stats">
+        <div class="bstat p2"><div class="bstat-val">41</div><div class="bstat-lbl">features</div></div>
+        <div class="bstat p2"><div class="bstat-val">236</div><div class="bstat-lbl">story points</div></div>
+        <div class="bstat p2"><div class="bstat-val">~1,416</div><div class="bstat-lbl">dev hours</div></div>
+        <div class="bstat p2"><div class="bstat-val">3–5 mo</div><div class="bstat-lbl">timeline</div></div>
+      </div>
+    </div>
+    <div class="legend">
+      <div class="legend-item"><div class="ldot" style="background:var(--p2)"></div> Planned — browser-only, no backend required</div>
+      <div class="legend-item" style="font-size:0.68rem;color:var(--text3)">1 SP ≈ 6 hours</div>
+    </div>
+    <div class="cat-grid" id="p2-grid"></div>
+  </div>
+</div>
+
+
+<!-- ════════ PHASE 3 ════════ -->
+<div class="page" id="page-phase3">
+  <div class="topbar">
+    <div class="topbar-left">
+      <span class="topbar-crumb">Curionis</span>
+      <span class="topbar-sep">›</span>
+      <span class="topbar-title">Phase 3 — Scale & Monetise</span>
+    </div>
+    <div class="topbar-right">
+      <span class="topbar-chip" style="border-color:var(--p3-border);color:var(--p3);background:var(--p3-light)">🔭 Future · Oct 2026 – Mid 2027</span>
+      <span class="topbar-chip">34 features · 295 SP</span>
+    </div>
+  </div>
+  <div class="content">
+    <div class="phase-banner p3">
+      <div class="banner-tag p3">Phase 3 · Future · 6–10 Months</div>
+      <h2>Infrastructure, Scale & Revenue</h2>
+      <p>Introduces a backend server, user accounts, payment processing, teacher mode, native mobile apps, and global gamification — transforming Curionis into a multi-user SaaS platform.</p>
+      <div class="banner-stats">
+        <div class="bstat p3"><div class="bstat-val">34</div><div class="bstat-lbl">features</div></div>
+        <div class="bstat p3"><div class="bstat-val">295</div><div class="bstat-lbl">story points</div></div>
+        <div class="bstat p3"><div class="bstat-val">~1,770</div><div class="bstat-lbl">dev hours</div></div>
+        <div class="bstat p3"><div class="bstat-val">6–10 mo</div><div class="bstat-lbl">timeline</div></div>
+      </div>
+    </div>
+    <div class="legend">
+      <div class="legend-item"><div class="ldot" style="background:var(--p3)"></div> Planned — backend infrastructure required</div>
+      <div class="legend-item" style="font-size:0.68rem;color:var(--text3)">1 SP ≈ 6 hours</div>
+    </div>
+    <div class="cat-grid" id="p3-grid"></div>
+  </div>
+</div>
+
+
+<!-- ════════════ JS ════════════ -->
+<script>
+// ── Feature data ──────────────────────────────────────────────────────────────
+const P1=[
+  {e:'🏠',n:'Landing & Home Page',f:[{n:'Hero Section — Headline, Tagline & CTA',sp:3},{n:'Trust Bar — Four Pillars',sp:1},{n:'Features Grid — Five Design Principles',sp:2},{n:'Home Pack Preview Row',sp:3},{n:'Home Page Navigation Bar',sp:2}]},
+  {e:'🎠',n:'Cover Flow Pack Selector',f:[{n:'3D Carousel — Render & Layout',sp:8},{n:'Navigation — Arrows, Dots, Click',sp:3},{n:'Keyboard Navigation',sp:1},{n:'Touch Swipe — Mobile',sp:2},{n:'Hover Tilt — Active Card',sp:4},{n:'Card Reflection Effect',sp:2},{n:'Free vs Locked Card States',sp:3},{n:'Fullscreen Hint Banner',sp:1}]},
+  {e:'🎮',n:'Core Quiz Game Engine',f:[{n:'Game Initialisation & Shuffle',sp:2},{n:'Question Renderer — Image Panel',sp:2},{n:'Answer Buttons — 4-Choice MCQ',sp:4},{n:'Answer Selection & Feedback',sp:3},{n:'Progress Bar & Live Score',sp:2},{n:'Next Question Flow & Quit',sp:2},{n:'Game Over — Star Rating & Results',sp:4},{n:'Play Again & Return Navigation',sp:1}]},
+  {e:'🃏',n:'Flashcard Modal',f:[{n:'Modal Open / Close / Backdrop',sp:3},{n:'Facts Flashcard — Key-Value Display',sp:3},{n:'Did You Know — Random Statement',sp:2},{n:'Reveal-After-Answer Button Logic',sp:3},{n:'Credits Reference Notice',sp:1}]},
+  {e:'🔐',n:'Parent Gate System',f:[{n:'Maths Puzzle Overlay',sp:3},{n:'Validation, Error & Keyboard Support',sp:2},{n:'Callback Routing',sp:2}]},
+  {e:'💎',n:'Premium / Locked Pack Flow',f:[{n:'Intent / Pre-Registration Overlay',sp:3},{n:'Locked Pack Library (9 Packs)',sp:3},{n:'Pricing Page — Three-Plan Grid',sp:4}]},
+  {e:'📖',n:'About Us & Story Page',f:[{n:'Brand Story Hero & Mission Cards',sp:2},{n:'Inline Credits & Attribution Block',sp:3},{n:'Navigate-to-Contact Deep Link',sp:2}]},
+  {e:'✉️',n:'Contact Form',f:[{n:'Fields, Validation & Star Rating',sp:3},{n:'Silent Google Forms Submission',sp:4}]},
+  {e:'❓',n:'Knowledge Base / FAQ',f:[{n:'FAQ — Accordion from STRINGS DB',sp:2},{n:'FAQ — Toggle Animation',sp:1}]},
+  {e:'📜',n:'Credits & Attribution',f:[{n:'Photography & Scientific Sources',sp:1},{n:'Dynamic Pack-Specific References',sp:3},{n:'Video & Reference Links (27)',sp:2},{n:'General Notice & Takedown Info',sp:1}]},
+  {e:'⚖️',n:'Legal & Policy Pages',f:[{n:'Privacy Policy',sp:1},{n:'Terms of Use',sp:1},{n:'Accessibility Statement',sp:1}]},
+  {e:'🔀',n:'Navigation & Routing',f:[{n:'Single-Page App Router',sp:3},{n:'404 / Unknown Route Page',sp:1},{n:'Navbar Visibility State',sp:2},{n:'Scroll-to-Top on Navigation',sp:1}]},
+  {e:'🌙',n:'Theme System',f:[{n:'Dark / Light Theme Toggle',sp:2},{n:'SVG Moon / Sun Icon Swap',sp:1}]},
+  {e:'🍞',n:'UI Components & Feedback',f:[{n:'Toast Notification System',sp:1},{n:'Section Dividers',sp:1},{n:'Responsive Design — Mobile',sp:5},{n:'WebP Image Optimisation',sp:2}]},
+  {e:'🗃️',n:'Data Architecture',f:[{n:'STRINGS Database — 333 entries',sp:5},{n:'S(key,vars) String Lookup',sp:1},{n:'applyStrings() — DOM i18n',sp:3},{n:'FACTS_DB — Structured Facts',sp:6},{n:'PACKS Array — 15 Structures',sp:4},{n:'Fisher-Yates Shuffle Utility',sp:1},{n:'DB Credits Renderer',sp:2}]},
+  {e:'🌐',n:'Global & Site-wide',f:[{n:'Consistent Footer — All 6 Pages',sp:3},{n:'CSS Design Token System',sp:4},{n:'Keyboard Accessibility Listeners',sp:2},{n:'DOMContentLoaded Init Sequence',sp:1},{n:'Global Function Exposure',sp:1}]},
+];
+
+const P2=[
+  {e:'🕹️',n:'New Game Modes',f:[{n:'Matching Pairs Memory Game',sp:8},{n:'Silhouette / Shadow Mode',sp:6},{n:'Drag-and-Drop Labelling Game',sp:10},{n:'Timed Speed Mode',sp:6},{n:'True / False Fact Mode',sp:8}]},
+  {e:'🔊',n:'Audio & Multimedia',f:[{n:'Species Sound / Call Playback',sp:8},{n:'Text-to-Speech Pronunciation',sp:4},{n:'Answer Sound Effects',sp:4},{n:'Background Ambient Music',sp:5}]},
+  {e:'📈',n:'Progress & Persistence',f:[{n:'Session Score History',sp:5},{n:'Personal Best Tracking',sp:3},{n:'Pack Completion Badges',sp:5},{n:'Correct-Answer Streak Counter',sp:4}]},
+  {e:'👨‍👩‍👧',n:'Parent Dashboard',f:[{n:'Gate-Protected Parent Dashboard',sp:8},{n:'Per-Pack Drill-Down & Sparkline',sp:10},{n:'Printable Progress Report',sp:5},{n:'Daily / Weekly Play Time Limiter',sp:8}]},
+  {e:'🌿',n:'Content & Pack Expansion',f:[{n:'Wild Animals Plus — 30 Species',sp:8},{n:'New Free Pack — Reptiles (16)',sp:8},{n:'New Premium Pack — Gemstones',sp:8},{n:'New Premium Pack — Insects',sp:8},{n:'Fun Facts Expansion — All Packs',sp:10}]},
+  {e:'🌐',n:'Multilingual Support',f:[{n:'Language Selector UI',sp:4},{n:'Hindi Locale — Full Translation',sp:8},{n:'Regional Script Rendering',sp:5}]},
+  {e:'♿',n:'UX & Accessibility',f:[{n:'Keyboard Trap in Modals',sp:4},{n:'ARIA Live Regions',sp:3},{n:'Reduced Motion Mode',sp:4},{n:'High Contrast Mode Toggle',sp:5},{n:'Font Size Scaling Control',sp:3}]},
+  {e:'📲',n:'PWA & Offline',f:[{n:'PWA Manifest',sp:3},{n:'Service Worker — Asset Caching',sp:8},{n:'Offline Mode Indicator',sp:4}]},
+  {e:'📣',n:'Social & Sharing',f:[{n:'Score Share Card — Canvas',sp:8},{n:'WhatsApp / Social Share Buttons',sp:3},{n:'Referral / Invite Link System',sp:8}]},
+  {e:'⚙️',n:'Platform & Technical',f:[{n:'Image Lazy Loading',sp:4},{n:'WebP Fallback with <picture>',sp:3},{n:'Google Analytics 4',sp:5},{n:'Sitemap.xml & Robots.txt',sp:2},{n:'Open Graph & Twitter Cards',sp:3}]},
+];
+
+const P3=[
+  {e:'👤',n:'User Accounts & Profiles',f:[{n:'Child Profile — No Email Required',sp:10},{n:'Parent Account — JWT Auth',sp:10},{n:'Cloud Progress Sync',sp:10},{n:'Avatar Customisation System',sp:8}]},
+  {e:'💳',n:'Payment & Monetisation',f:[{n:'Stripe — One-Time Pack Purchase',sp:10},{n:'Stripe Billing — Subscriptions',sp:10},{n:'Entitlement Engine',sp:8},{n:'Free Trial — 7-Day Premium',sp:6}]},
+  {e:'🖥️',n:'Backend API & Infrastructure',f:[{n:'REST API — Node/Express',sp:10},{n:'Database Schema (PostgreSQL)',sp:10},{n:'Image & Asset CDN Pipeline',sp:8},{n:'Headless CMS Integration',sp:10},{n:'Transactional Email Service',sp:6}]},
+  {e:'🎓',n:'Teacher / Classroom Mode',f:[{n:'Teacher Account Type & Role',sp:10},{n:'Classroom Roster & Join Code',sp:8},{n:'Assignment & Due Date System',sp:8},{n:'Class Performance Analytics',sp:10},{n:'Printable Progress Certificates',sp:8}]},
+  {e:'🧠',n:'Advanced Game Features',f:[{n:'Difficulty Levels — Easy/Med/Hard',sp:6},{n:'Hint System — Three Hints/Game',sp:8},{n:'Adaptive Difficulty — Spaced Rep.',sp:10},{n:'Multiplayer — Same-Device',sp:10},{n:'Daily Challenge — Pack of Day',sp:8}]},
+  {e:'🏆',n:'Achievements & Gamification',f:[{n:'Full Badge / Trophy System (30+)',sp:10},{n:'XP & Level System',sp:8},{n:'Global Leaderboard — Weekly',sp:10},{n:'Friend Challenge & Invite',sp:10}]},
+  {e:'📱',n:'Mobile Native App',f:[{n:'Android App — Capacitor',sp:10},{n:'iOS App — App Store',sp:10},{n:'Push Notifications',sp:5}]},
+  {e:'🛠️',n:'Admin & Content Management',f:[{n:'Admin Dashboard & Moderation',sp:10},{n:'Takedown Workflow',sp:6},{n:'A/B Testing Framework',sp:8},{n:'Automated Content QA (CI/CD)',sp:6}]},
+];
+
+const swimData=[
+  ['🎮 Game Engine','8 features — MCQ, shuffle, scoring','5 new modes: Pairs, Silhouette, Drag, Timed, T/F','5 features — Adaptive, hints, multiplayer, daily'],
+  ['🃏 Flashcards','5 features — Facts + DYK modal','—','—'],
+  ['🗂️ Content Packs','7 free packs · 108 species','5 features — 2 new packs + expansions','2 features — Admin CMS'],
+  ['🔐 Access & Auth','3 features — Parent gate puzzle','—','4 features — Full accounts + JWT'],
+  ['💰 Monetisation','3 features — Locked UI + intent','3 features — PWA + pricing','4 features — Stripe payments + trial'],
+  ['📊 Progress','—','4 features — History, badges, streaks','—'],
+  ['👨‍👩‍👧 Parent Tools','—','4 features — Dashboard + time limiter','2 features — Cloud + certificates'],
+  ['🎓 Teacher Mode','—','—','5 features — Classroom + analytics'],
+  ['🔊 Audio','—','4 features — Sounds, TTS, SFX, music','—'],
+  ['🌐 i18n','1 STRINGS DB + lookup function','3 features — Language selector + Hindi','—'],
+  ['♿ Accessibility','3 features — Keyboard + WCAG basics','5 features — Focus, ARIA, contrast','—'],
+  ['📱 Mobile / PWA','—','3 features — Manifest + SW + offline','3 features — Android + iOS apps'],
+  ['🖥️ Backend API','—','—','5 features — Node, PostgreSQL, CDN, email'],
+  ['📣 Social','—','3 features — Share card + referral','4 features — Leaderboard + challenges'],
+  ['🏠 Landing & UI','5 features — Home, nav, trust bar','5 features — Perf, SEO, OG tags','—'],
+  ['🗃️ Architecture','7 features — DB, packs, router, shuffle','—','3 features — A/B, admin, QA pipeline'],
+];
+
+// ── Render grid ───────────────────────────────────────────────────────────────
+function renderGrid(data, containerId, phase) {
+  const c = document.getElementById(containerId);
+  if (!c) return;
+  c.innerHTML = data.map(cat => {
+    const totalSP = cat.f.reduce((s,f)=>s+f.sp,0);
+    const needToggle = cat.f.length > 4;
+    const safeKey = cat.n.replace(/\W/g,'');
+    let items = cat.f.map(f => `
+      <div class="feat-row">
+        <div class="feat-dot">${phase===1?'✓':'·'}</div>
+        <div class="feat-name">${f.n}</div>
+        <div class="feat-sp">${f.sp} SP</div>
+      </div>`).join('');
+    return `
+      <div class="cat-card ${phase===1?'p1':phase===2?'p2':'p3'}">
+        <div class="cat-head">
+          <div class="cat-head-left">
+            <div class="cat-emoji">${cat.e}</div>
+            <div class="cat-name">${cat.n}</div>
+            <div class="cat-count">${cat.f.length} feature${cat.f.length!==1?'s':''}</div>
+          </div>
+          <div><div class="cat-sp-num">${totalSP}</div><span class="cat-sp-lbl">SP</span></div>
+        </div>
+        <div class="cat-features${needToggle?' collapsed':''}" id="cf-${safeKey}">${items}</div>
+        ${needToggle?`<button class="expand-btn" onclick="toggle('${safeKey}',this)"><span>+ ${cat.f.length-3} more</span></button>`:''}
+      </div>`;
+  }).join('');
+}
+
+function toggle(key, btn) {
+  const el = document.getElementById('cf-'+key);
+  const collapsed = el.classList.toggle('collapsed');
+  const total = el.querySelectorAll('.feat-row').length;
+  btn.querySelector('span').textContent = collapsed ? `+ ${total-3} more` : '− show less';
+}
+
+// ── Swimlane ──────────────────────────────────────────────────────────────────
+function renderSwimlane() {
+  const body = document.getElementById('swimlane-body');
+  if (!body) return;
+  body.innerHTML = swimData.map((r,i) => {
+    const bg = i%2===1?'background:var(--bg)':'';
+    const cell = (val,cls) => val==='—'
+      ? `<td><span class="sl-tag none">—</span></td>`
+      : `<td><span class="sl-tag ${cls}">${val}</span></td>`;
+    return `<tr style="${bg}"><td class="sl-cat-cell">${r[0]}</td>${cell(r[1],'p1')}${cell(r[2],'p2')}${cell(r[3],'p3')}</tr>`;
+  }).join('');
+}
+
+// ── Navigation ────────────────────────────────────────────────────────────────
+function navigate(page) {
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-item,.nav-sub-item').forEach(b=>b.classList.remove('active'));
+  const pageEl = document.getElementById('page-'+page);
+  if (pageEl) pageEl.classList.add('active');
+  const navEl = document.getElementById('nav-'+page);
+  if (navEl) navEl.classList.add('active');
+  document.querySelector('.main').scrollTo(0,0);
+}
+
+// ── Collapsible group ─────────────────────────────────────────────────────────
+function toggleGroup(id) {
+  const hdr = document.querySelector(`#group-${id} .nav-group-header`);
+  const children = document.getElementById('children-'+id);
+  if (!children) return;
+  const isOpen = hdr.classList.toggle('open');
+  if (isOpen) {
+    children.style.maxHeight = children.scrollHeight + 'px';
+    children.classList.add('open');
+  } else {
+    children.style.maxHeight = '0';
+    children.classList.remove('open');
+  }
+}
+
+// ── Init ──────────────────────────────────────────────────────────────────────
+// Set initial open height for curionis group
+window.addEventListener('DOMContentLoaded', () => {
+  const ch = document.getElementById('children-curionis');
+  if (ch) ch.style.maxHeight = ch.scrollHeight + 'px';
+});
+
+renderGrid(P1,'p1-grid',1);
+renderGrid(P2,'p2-grid',2);
+renderGrid(P3,'p3-grid',3);
+renderSwimlane();
+</script>
+</body>
+</html>
